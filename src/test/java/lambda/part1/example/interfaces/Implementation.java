@@ -10,9 +10,9 @@ package lambda.part1.example.interfaces;
  *
  * 4. Метод по умолчанию не может переопределить метод класса java.lang.Object.
  */
-public class Implementation  implements First, Second {
+public class Implementation { // implements First, Second {
 
     public static void main(String[] args) {
-        System.out.println(new Implementation().getValue());
+//        System.out.println(new Implementation().getValue());
     }
 }
