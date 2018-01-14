@@ -6,6 +6,7 @@ import lambda.part3.example.Example1;
 import org.junit.Test;
 
 import java.util.*;
+import java.util.function.BiFunction;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -32,6 +33,9 @@ public class Exercise2 {
         candidates.put(helen, Status.PENDING);
 
         // TODO реализация
+        BiFunction<Person, Status, Status> acceptIfGreaterThan21 = ((person, status) -> person.getAge() > 21 ? Status.ACCEPTED : Status.DECLINED);
+        candidates.replaceAll(acceptIfGreaterThan21);
+//        candidates.replaceAll((p, s) -> p.getAge() < 21 ? Status.DECLINED : Status.ACCEPTED);
 
         assertEquals(Status.ACCEPTED, candidates.get(ivan));
         assertEquals(Status.ACCEPTED, candidates.get(helen));
@@ -49,6 +53,7 @@ public class Exercise2 {
         candidates.put(helen, Status.PENDING);
 
         // TODO реализация
+        candidates.replaceAll((p, s) -> p.getAge() < 21 ? null : Status.ACCEPTED);
 
         assertEquals(Status.ACCEPTED, candidates.get(ivan));
         assertEquals(Status.ACCEPTED, candidates.get(helen));
@@ -65,9 +70,9 @@ public class Exercise2 {
         candidates.put(ivan, Status.PENDING);
 
         // TODO реализация
-        Status alexStatus = null;
-        Status ivanStatus = null;
-        Status helenStatus = null;
+        Status alexStatus = candidates.getOrDefault(alex, Status.UNKNOWN);
+        Status ivanStatus = candidates.getOrDefault(ivan, Status.UNKNOWN);
+        Status helenStatus = candidates.getOrDefault(helen, Status.UNKNOWN);
 
         assertEquals(Status.PENDING, alexStatus);
         assertEquals(Status.PENDING, ivanStatus);
@@ -88,6 +93,8 @@ public class Exercise2 {
         newValues.put(helen, Status.PENDING);
 
         // TODO реализация
+        //oldValues.forEach((p, s) -> newValues.merge(p, s, (newValue, oldValue) -> newValue));
+        oldValues.forEach(newValues::putIfAbsent);
 
         assertEquals(Status.DECLINED, newValues.get(alex));
         assertEquals(Status.ACCEPTED, newValues.get(ivan));
